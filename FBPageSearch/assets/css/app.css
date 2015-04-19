@@ -33,7 +33,7 @@ header{
 }
 
 .card-opened{
-    height:200px;
+    min-height:200px;
 }
 
 .card-inner{
@@ -45,7 +45,8 @@ header{
 }
 
 .cover--image{
-    height: 200px;
+    width: 95%;
+    margin: auto;
 }
 
 .card--heading{
@@ -64,4 +65,19 @@ header{
     line-height: 1.42857143;
     color: #333;
     padding: 15px;
+}
+.page--image{
+    width: 45%;
+    float: left;
+    border-right: dashed #ddd 1px;
+}
+
+.page--details {
+    width: 50%;
+    float: left;
+    padding: 10px;
+}
+
+.clear{
+    clear: both;
 }
