@@ -1,0 +1,52 @@
+header{
+    height: 30px;
+    border-bottom: solid;
+    border-width: 1px;
+}
+
+#search-box{
+
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+#header-separator{
+    margin-top: 30px;
+}
+
+.card{
+    height:50px;
+    width:20%;
+    border: solid;
+
+}
+
+.card-opened{
+    height:200px;
+    border: solid;
+}
+
+.card-inner{
+
+}
+
+.hide{
+    display: none;
+}
+
+.cover-image{
+    height: 200px;
+}
