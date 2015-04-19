@@ -19,7 +19,7 @@
     <div id="header-separator"></div>
     <div style="display: flex;">
         <input id="search-box" class="search" type="search" placeholder="Search for facebook pages .... "/>
-        <button id="submit-search" type="submit" onclick="searchPage()">Search</button>
+        <button id="submit-search" type="submit" onclick="$.searchPage()">Search</button>
     </div>
 
     <div class="main" id="pages-card-container">
@@ -29,166 +29,19 @@
     </div>
 
 
-
 </div>
 
+<div id="templatesContainer" style="display: none">
+    <div id="cardTemplate">
+        <div class='card' id="card-{{id}}" onclick='$.openCard("{{id}}")'>
+            <div class="card--heading">{{name}}</div>
+            <div class="card--body"></div>
+        </div>
+    </div>
+</div>
 
-<script>
-
-
-    var cardObject = {
-        id: "150245898338048",
-        about: "Bhakti Yoga Shala: an eco conscious donation-based yoga studio in Santa Monica CA. We offer a full schedule of daily Bhakti Vinyasa yoga classes, kirtans & special events. ",
-        can_post: false,
-        category: "Sports/recreation/activities",
-        category_list: [
-            {
-                id: "174832985894571",
-                name: "Yoga & Pilates"
-            }
-        ],
-        checkins: 4582,
-        cover: {
-            cover_id: "1034004963295466",
-            offset_x: 0,
-            offset_y: 39,
-            source: "https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xpt1/t31.0-8/s720x720/10845601_1034004963295466_3083815443529833170_o.jpg",
-            id: "1034004963295466"
-        },
-        description: "Bhakti Yoga Shala: an eco conscious donation-based yoga studio in Santa Monica CA. We offer a full schedule of daily Bhakti Vinyasa yoga classes, kirtans & special events. BHAKTI VINYASA FLOW is a dynamic, soulful, devotional and rejuvenating physical yoga practice fusing the principles of hatha vinyasa yoga (the union of body, breath and movement) and the qualities of bhakti yoga (gratitude, openheartedness, humility, compassion and devotion). At any level, you are encouraged to honor yourself. Depending on the instructor's creative expression and intuitive guidance, our BHAKTI VINYASA FLOW classes at Bhakti Yoga Shala will explore a wide range of yogic tools and techniques including sun salutations, vinyasa asana sequences (flowing yoga poses with the breath), restorative yoga poses, yogic breathing exercises (pranayama), meditation, kirtan (devotional chanting), mantra chanting, inspirational quotes from great yogic saints, mystical poetry, prayer, partner yoga, massage, visualizations, affirmations, dancing, creative movement, aromatherapy and much much more to enhance your transformative yogic experience. Come with an open mind and open heart and dive deep into you own bliss! Join Govindas & Radha's Fan page on facebook: http://www.facebook.com/govindasandradha More info on kirtans, events, teacher trainings & daily yoga schedule at: http://www.bhaktiyogashala.com http://www.twitter.com/bhaktiyogashala http://www.govindasandradha.com ",
-        has_added_app: false,
-        is_community_page: false,
-        is_published: true,
-        likes: 11456,
-        link: "https://www.facebook.com/bhaktiyogashalasantamonica",
-        location: {
-            city: "Santa Monica",
-            country: "United States",
-            latitude: 34.016594901494,
-            longitude: -118.49852028899,
-            state: "CA",
-            street: "207 Arizona",
-            zip: "90405"
-        },
-        name: "Bhakti Yoga Shala",
-        parking: {
-            lot: 1,
-            street: 1,
-            valet: 0
-        },
-        talking_about_count: 108,
-        username: "bhaktiyogashalasantamonica",
-        website: "http://www.bhaktiyogashala.com",
-        were_here_count: 4582
-    };
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '1654518208111531',
-            xfbml      : true,
-            version    : 'v2.3'
-        });
-    };
+<script src="../assets/js/app.js" type="text/javascript"></script>
 
 
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    function openCard(id){
-        console.log(id)
-        $jsonp.send('https://graph.facebook.com/v2.3/'+id+'?access_token=1654518208111531|2839cfca4a6778246de5aa39fed7d4c1&callback=handleStuff', {
-            callbackName: 'handleStuff',
-            onSuccess: function(json){
-                console.log('success!', json);
-                var ele = "<div>"
-                        + "<div>"
-                        +json.name
-                        +"</div>"
-                        + "<div class='card-inner' id='card-inner-"+json.id+"'>"
-                        + "<div>"
-                        +json.about
-                        +"</div>"
-                        + "<img class='cover-image' src='"+json.cover.source+"'/>"
-                        +"</div>"
-                        +"</div>";
-                document.getElementById("card-"+id).innerHTML = ele;
-                var list = document.getElementsByClassName('card-inner')
-                var list1 = document.getElementsByClassName('card')
-                for(var i =0;i<list.length;i++){
-                    var card = list[i]
-                    card.className = 'card-inner hide';
-                }
-                for(var i =0;i<list1.length;i++){
-                    var card = list1[i]
-                    card.className = 'card';
-                }
-                document.getElementById("card-"+id).className  = "card card-opened";
-                document.getElementById("card-inner-"+id).className  = "card-inner";
-            },
-            onTimeout: function(){
-                console.log('timeout!');
-            },
-            timeout: 5
-        });
-    }
-
-    function searchPage() {
-        var query = document.getElementById("search-box").value;
-        $jsonp.send('https://graph.facebook.com/v2.3/search?q='+query+'&type=page&access_token=1654518208111531|2839cfca4a6778246de5aa39fed7d4c1&callback=handleStuff', {
-            callbackName: 'handleStuff',
-            onSuccess: function(json){
-                console.log('success!', json);
-                var elements ="";
-                for (var i = 0;i< json.data.length;i++){
-                    var id = json.data[i].id;
-                    elements += "<div class='card' id=card-"+id+" onclick='openCard("+id+")'>"+json.data[i].name+"</div>";
-
-                }
-                document.getElementById("card-list").innerHTML = elements;
-            },
-            onTimeout: function(){
-                console.log('timeout!');
-            },
-            timeout: 5
-        });
-    }
-
-
-
-    var $jsonp = (function(){
-        var that = {};
-
-        that.send = function(src, options) {
-            var callback_name = options.callbackName || 'callback',
-                    on_success = options.onSuccess || function(){},
-                    on_timeout = options.onTimeout || function(){},
-                    timeout = options.timeout || 10; // sec
-
-            var timeout_trigger = window.setTimeout(function(){
-                window[callback_name] = function(){};
-                on_timeout();
-            }, timeout * 1000);
-
-            window[callback_name] = function(data){
-                window.clearTimeout(timeout_trigger);
-                on_success(data);
-            }
-
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.async = true;
-            script.src = src;
-
-            document.getElementsByTagName('head')[0].appendChild(script);
-        }
-
-        return that;
-    })();
-
-</script>
 </body>
 </html>
