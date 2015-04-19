@@ -38,7 +38,7 @@ var fbPageSearch = function () {
         callback: 'handleStuff',
         baseUrl: 'https://graph.facebook.com/v2.3/',
         searchPath: 'search'
-    }
+    };
     var util = {
         serializeObj: function (obj) {
             var str = [];
@@ -63,10 +63,10 @@ var fbPageSearch = function () {
             }
             return classes
         }
-    }
+    };
 
 
-    var templatingEnigne = function (obj, templateId) {
+    var templatingEngine = function (obj, templateId) {
         var tempalte = document.getElementById(templateId).innerHTML;
         var keys = Object.getOwnPropertyNames(obj)
         for (var i = 0; i < keys.length; i++) {
@@ -74,9 +74,9 @@ var fbPageSearch = function () {
             tempalte = tempalte.replace(regex, obj[keys[i]])
         }
         return tempalte;
-    }
+    };
 
-    templatingEnigne({id: 1, name: 'mangal'}, 'cardTemplate')
+    
     function openCard(id) {
         var getParams = function () {
             return {
@@ -91,10 +91,10 @@ var fbPageSearch = function () {
         $jsonp.send(getUrl(), {
             callbackName: config.callback,
             onSuccess: function (json) {
-                var ele = templatingEnigne({
+                var ele = templatingEngine({
                     name: json.name,
                     about: json.about,
-                    url: json.cover.source
+                    url: json.cover ? json.cover.source : ''
                 }, "cardDetailTemplate")
                 document.getElementById("card-" + id).getElementsByClassName("card--body")[0].innerHTML = ele;
                 var list = document.getElementsByClassName('card--body')
@@ -124,19 +124,19 @@ var fbPageSearch = function () {
                 type: 'page',
                 q: document.getElementById("search-box").value
             }
-        }
+        };
         var getUrl = function () {
             return config.baseUrl + config.searchPath + util.serializeObj(getParams());
-        }
+        };
         var success = function (json) {
             var elements = "";
             for (var i = 0; i < json.data.length; i++) {
                 var id = json.data[i].id;
-                elements += templatingEnigne(json.data[i], 'cardTemplate');
+                elements += templatingEngine(json.data[i], 'cardTemplate');
 
             }
             document.getElementById("card-list").innerHTML = elements;
-        }
+        };
         $jsonp.send(getUrl(), {
             callbackName: config.callback,
             onSuccess: success,
