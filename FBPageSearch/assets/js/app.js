@@ -92,11 +92,16 @@ var fbPageSearch = function () {
             callbackName: config.callback,
             onSuccess: function (json) {
                 var ele = templatingEngine({
+                    id: json.id,
                     name: json.name,
                     about: json.about,
                     url: json.cover ? json.cover.source : ''
                 }, "cardDetailTemplate")
                 document.getElementById("card-" + id).getElementsByClassName("card--body")[0].innerHTML = ele;
+                var rate = sessionStorage[json.id]
+                if(rate) {
+                    document.getElementById("card-" + id).querySelectorAll('[value="' + rate + '"]')[0].setAttribute('checked', 'checked')
+                }
                 var list = document.getElementsByClassName('card--body')
                 var list1 = document.getElementsByClassName('card')
                 for (var i = 0; i < list.length; i++) {
@@ -120,6 +125,14 @@ var fbPageSearch = function () {
             searchPage();
     }
 
+    function onRating(cardId, rating){
+        event.stopPropagation()
+        event.preventDefault()
+        event.target.setAttribute('checked', 'checked')
+        sessionStorage[cardId] = JSON.stringify(rating)
+    }
+
+
 
     function searchPage() {
         var getParams = function () {
@@ -141,6 +154,12 @@ var fbPageSearch = function () {
 
             }
             document.getElementById("card-list").innerHTML = elements;
+            var list = document.getElementsByClassName('card--body')
+            for (var i = 0; i < list.length; i++) {
+                console.log(list[i])
+                var card = list[i]
+                card.className = util.addClass(card.className, 'hide')
+            }
         };
         $jsonp.send(getUrl(), {
             callbackName: config.callback,
@@ -155,7 +174,8 @@ var fbPageSearch = function () {
     return {
         searchPage: searchPage,
         openCard: openCard,
-        onClickEnter: onClickEnter
+        onClickEnter: onClickEnter,
+        onRating: onRating
     }
 }
 
