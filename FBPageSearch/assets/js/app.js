@@ -115,6 +115,11 @@ var fbPageSearch = function () {
             timeout: 5
         });
     }
+    function onClickEnter(){
+        if (event.keyCode == 13)
+            searchPage();
+    }
+
 
     function searchPage() {
         var getParams = function () {
@@ -149,7 +154,8 @@ var fbPageSearch = function () {
 
     return {
         searchPage: searchPage,
-        openCard: openCard
+        openCard: openCard,
+        onClickEnter: onClickEnter
     }
 }
 
