@@ -156,11 +156,11 @@ var fbPageSearch = function () {
             document.getElementById("card-list").innerHTML = elements;
             var list = document.getElementsByClassName('card--body')
             for (var i = 0; i < list.length; i++) {
-                console.log(list[i])
                 var card = list[i]
                 card.className = util.addClass(card.className, 'hide')
             }
         };
+
         $jsonp.send(getUrl(), {
             callbackName: config.callback,
             onSuccess: success,

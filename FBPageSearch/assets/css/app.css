@@ -97,6 +97,7 @@ header{
 .cover--image{
     width: 95%;
     margin: auto;
+    max-height: 230px;
 }
 
 .card--heading{
@@ -120,6 +121,7 @@ header{
     width: 45%;
     float: left;
     border-right: dashed #ddd 1px;
+
 }
 
 .page--details {
