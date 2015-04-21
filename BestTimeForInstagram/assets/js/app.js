@@ -60,6 +60,7 @@ $('#follwers-btn').on('click', function (e) {
 
 });
 
+
 $('#recent-activity-btn').on('click', function () {
     if (!access_token) {
         access_token = location.hash.replace('#', '').substring(13);
@@ -72,7 +73,7 @@ $('#recent-activity-btn').on('click', function () {
         .done(function (response) {
             console.log(response)
             $.each(response.data, function (i, follower) {
-                console.log(follower)
+                console.log(follower.created_time)
             });
         });
 });
