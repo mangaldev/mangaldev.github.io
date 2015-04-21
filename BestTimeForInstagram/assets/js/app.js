@@ -1,44 +1,12 @@
-var fbPageSearch = function () {
-
-    var $jsonp = (function () {
-        var that = {};
-
-        that.send = function (src, options) {
-            var callback_name = options.callbackName || 'callback',
-                on_success = options.onSuccess || function () {
-                    },
-                on_timeout = options.onTimeout || function () {
-                    },
-                timeout = options.timeout || 10; // sec
-
-            var timeout_trigger = window.setTimeout(function () {
-                window[callback_name] = function () {
-                };
-                on_timeout();
-            }, timeout * 1000);
-
-            window[callback_name] = function (data) {
-                window.clearTimeout(timeout_trigger);
-                on_success(data);
-            }
-
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.async = true;
-            script.src = src;
-
-            document.getElementsByTagName('head')[0].appendChild(script);
-        }
-
-        return that;
-    })();
+var instaShare = function () {
 
     var config = {
-        access_token: '1654518208111531|2839cfca4a6778246de5aa39fed7d4c1',
         callback: 'handleStuff',
         baseUrl: 'https://graph.facebook.com/v2.3/',
-        searchPath: 'search'
+        client_id: 'b1fd0900abc44ab3bff20abf085f037e',
+        client_secret: 'cb90e1ec58b9463682f8f8d2dcb61693'
     };
+
     var util = {
         serializeObj: function (obj) {
             var str = [];
@@ -47,21 +15,6 @@ var fbPageSearch = function () {
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 }
             return '?' + str.join("&");
-        },
-
-        removeClass: function (classes, classToRemove) {
-            var index = classes.indexOf(classToRemove)
-            if (index > -1)
-                return classes.replace(classToRemove, '')
-
-            return classes
-        },
-        addClass: function (classes, classToAdd) {
-            var index = classes.indexOf(classToAdd)
-            if (index == -1) {
-                classes = classes + ' ' + classToAdd
-            }
-            return classes
         }
     };
 
@@ -77,106 +30,49 @@ var fbPageSearch = function () {
     };
 
 
-    function openCard(id) {
-        var getParams = function () {
-            return {
-                access_token: config.access_token,
-                callback: config.callback
-            }
-        }
-        var getUrl = function () {
-            var url = config.baseUrl + id + util.serializeObj(getParams())
-            return url;
-        }
-        $jsonp.send(getUrl(), {
-            callbackName: config.callback,
-            onSuccess: function (json) {
-                var ele = templatingEngine({
-                    id: json.id,
-                    name: json.name,
-                    about: json.about,
-                    url: json.cover ? json.cover.source : ''
-                }, "cardDetailTemplate")
-                document.getElementById("card-" + id).getElementsByClassName("card--body")[0].innerHTML = ele;
-                var rate = sessionStorage[json.id]
-                if(rate) {
-                    document.getElementById("card-" + id).querySelectorAll('[value="' + rate + '"]')[0].setAttribute('checked', 'checked')
-                }
-                var list = document.getElementsByClassName('card--body')
-                var list1 = document.getElementsByClassName('card')
-                for (var i = 0; i < list.length; i++) {
-                    var card = list[i]
-                    card.className = util.removeClass(card.className, 'show')
-                    card.className = util.addClass(card.className, 'hide')
-                }
-
-                var currentClass = document.getElementById("card-" + id).getElementsByClassName("card--body")[0].className;
-                var currentClass = util.removeClass(currentClass, 'hide');
-                document.getElementById("card-" + id).getElementsByClassName("card--body")[0].className = util.addClass(currentClass, 'show')
-            },
-            onTimeout: function () {
-                console.log('timeout!');
-            },
-            timeout: 5
-        });
-    }
-    function onClickEnter(){
-        if (event.keyCode == 13)
-            searchPage();
-    }
-
-    function onRating(cardId, rating){
-        event.stopPropagation()
-        event.preventDefault()
-        event.target.setAttribute('checked', 'checked')
-        sessionStorage[cardId] = JSON.stringify(rating)
-    }
-
-
-
-    function searchPage() {
-        var getParams = function () {
-            return {
-                access_token: config.access_token,
-                callback: config.callback,
-                type: 'page',
-                q: document.getElementById("search-box").value
-            }
-        };
-        var getUrl = function () {
-            return config.baseUrl + config.searchPath + util.serializeObj(getParams());
-        };
-        var success = function (json) {
-            var elements = "";
-            for (var i = 0; i < json.data.length; i++) {
-                var id = json.data[i].id;
-                elements += templatingEngine(json.data[i], 'cardTemplate');
-
-            }
-            document.getElementById("card-list").innerHTML = elements;
-            var list = document.getElementsByClassName('card--body')
-            for (var i = 0; i < list.length; i++) {
-                var card = list[i]
-                card.className = util.addClass(card.className, 'hide')
-            }
-        };
-
-        $jsonp.send(getUrl(), {
-            callbackName: config.callback,
-            onSuccess: success,
-            onTimeout: function () {
-                console.log('timeout!');
-            },
-            timeout: 10
-        });
-    }
-
-    return {
-        searchPage: searchPage,
-        openCard: openCard,
-        onClickEnter: onClickEnter,
-        onRating: onRating
-    }
+    return {}
 }
 
-var $ = fbPageSearch()
+var insta = instaShare();
+var access_token = '';
+
+$('#connect-instagram-link').on('click', function (e) {
+    console.log('clicked on link');
+
+});
+
+$('#follwers-btn').on('click', function (e) {
+    if (!access_token) {
+        access_token = location.hash.replace('#', '').substring(13);
+    }
+    var instaFollowersAPI = "https://api.instagram.com/v1/users/self/follows?access_token=" + access_token + "&callback=callbackFunction";
+
+    $.ajax({
+        url: instaFollowersAPI,
+        dataType: "jsonp"
+    })
+        .done(function (response) {
+            console.log(response)
+            $.each(response.data, function (i, follower) {
+                $('#list-followers-box').append("<div class='row'><div class='col-md-3'> <img src='" + follower.profile_picture + "'></img></div> <div class='col-md-3'>" + follower.full_name + "</div> <div class='col-md-3'>" + follower.id + "</div>");
+            });
+        });
+
+});
+
+$('#recent-activity-btn').on('click', function () {
+    if (!access_token) {
+        access_token = location.hash.replace('#', '').substring(13);
+    }
+    var recentActivityAPI = "https://api.instagram.com/v1/users/" + $('#user-id').val() + "/media/recent/?access_token=" + access_token + "&callback=callbackFunction";
+    $.ajax({
+        url: recentActivityAPI,
+        dataType: "jsonp"
+    })
+        .done(function (response) {
+            console.log(response)
+            $.each(response.data, function (i, follower) {
+                console.log(follower)
+            });
+        });
+});
