@@ -1,0 +1,135 @@
+header{
+    height: 60px;
+    opacity: 0.95;
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    border-bottom: 1px solid #AFAFAF;
+    border-color: #e7e7e7;
+    top: 0;
+    border-width: 0 0 1px;
+    position: fixed;
+    right: 0;
+    left: 0;
+}
+
+.search--container{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+
+.logo{
+    font-size: 22px;
+    margin-top: 2%;
+    margin-left: 10px;
+    font-family: 'Roboto Slab', sans-serif;
+    font-weight: 900;
+    color: #76797D;
+    float: left;
+    line-height: 8px;
+    height: 50px;
+    text-decoration: none;
+}
+
+.content{
+    margin-top: 112px;
+}
+
+#submit-search{
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+#search-box{
+    display: block;
+    width: 80%;
+    height: 50px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+#header-separator{
+    margin-top: 30px;
+}
+
+.card{
+    max-height:300px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.card-opened{
+    min-height:200px;
+}
+
+.card-inner{
+
+}
+
+.hide{
+    display: none;
+}
+
+.cover--image{
+    width: 95%;
+    margin: auto;
+    max-height: 230px;
+}
+
+.card--heading{
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.card--body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    padding: 15px;
+}
+.page--image{
+    width: 45%;
+    float: left;
+    border-right: dashed #ddd 1px;
+
+}
+
+.page--details {
+    width: 50%;
+    float: left;
+    padding: 10px;
+}
+
+.clear{
+    clear: both;
+}
