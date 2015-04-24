@@ -34,7 +34,7 @@ var fbPageSearch = function () {
     })();
 
     var config = {
-        access_token: '1654518208111531|2839cfca4a6778246de5aa39fed7d4c1',
+        access_token: 'Id|Secret',
         callback: 'handleStuff',
         baseUrl: 'https://graph.facebook.com/v2.3/',
         searchPath: 'search'
